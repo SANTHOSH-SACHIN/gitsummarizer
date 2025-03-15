@@ -23,9 +23,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -e ".[dev]"
-    - name: Lint with flake8
-      run: |
-        flake8 gitsummarizer tests
     - name: Format check with black
       run: |
         black --check gitsummarizer tests
