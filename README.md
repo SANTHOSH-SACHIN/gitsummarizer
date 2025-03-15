@@ -14,13 +14,9 @@ GitSummarizer provides human-readable summaries of git changes and commits, maki
 - 💻 **Command-line Interface**: Easy-to-use CLI with rich, colorful output
 
 ## Installation
-
+I haven't published this on PyPI yet, so fetch it from Github ;)
 ```bash
-# Install from PyPI
-pip install gitsummarizer
-
-# Or install directly from GitHub
-pip install git+https://github.com/yourusername/gitsummarizer.git
+pip install git+https://github.com/SANTHOSH-SACHIN/gitsummarizer.git
 ```
 
 ## Setup
@@ -31,7 +27,7 @@ Before using GitSummarizer, you need to configure an LLM provider:
 gitsumm setup
 ```
 
-This will guide you through selecting a provider and setting up any API keys.
+This will guide you through selecting a provider and setting up any API keys. Reccommended default is Groq (Use the most lightweight Llama 1B Model for instant results)
 
 ## Usage
 
@@ -86,6 +82,8 @@ gitsumm provider openai
 ## Contributing
 
 Contributions are welcome! Check out the [Contributing Guide](CONTRIBUTING.md) to get started.
+
+P.S: I need help to setup the tests and worflow. Would be happy if someone can help me out ;)
 
 ## License
 
