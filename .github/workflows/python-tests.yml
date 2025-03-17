@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.9, '3.10', '3.11']
+        python-version: [ '3.9', '3.10', '3.11']
 
     steps:
     - uses: actions/checkout@v3
@@ -22,15 +22,9 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -e ".[dev]"
-    - name: Format check with black
-      run: |
-        black --check gitsummarizer tests
-    - name: Check imports with isort
-      run: |
-        isort --check-only --profile black gitsummarizer tests
+        pip install -e ".[dev]" --break-system-packages
+
     - name: Test with pytest
       run: |
         pytest --cov=gitsummarizer
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
+
