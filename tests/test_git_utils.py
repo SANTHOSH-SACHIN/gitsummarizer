@@ -77,7 +77,14 @@ class TestGitUtils(unittest.TestCase):
     def test_compare_branches(self, mock_get_repo):
         # Setup mock repo
         mock_repo = mock.Mock(spec=Repo)
-        mock_repo.branches = ["main", "feature"]
+
+        # Create mock branch objects
+        mock_main = mock.Mock()
+        mock_main.name = "main"
+        mock_feature = mock.Mock()
+        mock_feature.name = "feature"
+        mock_repo.branches = [mock_main, mock_feature]
+
         mock_repo.git.merge_base.return_value = "base123"
 
         mock_commit = self._create_mock_commit("abc123", "Feature commit", "John Doe", "john@example.com")

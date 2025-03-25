@@ -29,6 +29,8 @@ class Summarizer:
 
     def _get_provider(self) -> LLMProvider:
         """Get the LLM provider instance."""
+        # Use the module-level get_provider function which can be mocked in tests
+        from .models import get_provider
         return get_provider(self.provider_name, self.api_key, self.model)
 
     def summarize_recent_commits(self, num_commits: int = 5, branch: Optional[str] = None) -> str:
