@@ -7,6 +7,7 @@ GitSummarizer provides human-readable summaries of git changes and commits, maki
 
 ## Features
 
+- 📅 **Summarize by Time Range**: Get summaries of commits between specific dates (YYYY-MM-DD format)
 - 🔍 **Summarize Recent Commits**: Get a human-friendly overview of your recent commit activity
 - 🔎 **Analyze Specific Commits**: Deep dive into a particular commit with natural language descriptions
 - 🔀 **Compare Branches**: Understand the differences between branches in plain English
@@ -54,6 +55,16 @@ gitsumm commit abc1234
 
 ```bash
 gitsumm compare main feature-branch
+```
+
+### Summarize Commits by Time Range
+
+```bash
+# Summarize commits between two dates (YYYY-MM-DD format)
+gitsumm time 2025-01-01 2025-03-25
+
+# Summarize commits from a specific branch within a date range
+gitsumm time 2025-01-01 2025-03-25 -b feature-branch
 ```
 
 ### Change LLM Provider

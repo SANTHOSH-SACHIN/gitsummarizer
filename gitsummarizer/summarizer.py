@@ -100,3 +100,27 @@ class Summarizer:
 
         except (git_utils.GitError, ModelError) as e:
             return f"Error generating summary: {str(e)}"
+
+    def summarize_time_range(self, start_date: str, end_date: str, branch: Optional[str] = None) -> str:
+        """
+        Summarize commits within a specific time range.
+
+        Args:
+            start_date: Start date in YYYY-MM-DD format
+            end_date: End date in YYYY-MM-DD format
+            branch: Branch name (optional)
+
+        Returns:
+            Summary of commits in the time range
+        """
+        try:
+            # Get commits in time range
+            commits = git_utils.get_commits_in_time_range(start_date, end_date, branch)
+
+            # Generate summary
+            provider = self._get_provider()
+            prompt = provider.create_prompt(commits)
+            return provider.generate(prompt)
+
+        except (git_utils.GitError, ModelError) as e:
+            return f"Error generating summary: {str(e)}"

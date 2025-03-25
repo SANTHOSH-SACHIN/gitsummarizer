@@ -101,6 +101,19 @@ def compare_command(args):
     ))
 
 
+def time_range_command(args):
+    """Summarize commits in a time range."""
+    with console.status(f"[bold green]Analyzing commits between {args.start_date} and {args.end_date}...[/bold green]"):
+        summarizer = Summarizer()
+        result = summarizer.summarize_time_range(args.start_date, args.end_date, args.branch)
+
+    console.print(Panel(
+        Markdown(result),
+        title=f"Summary: {args.start_date} to {args.end_date}",
+        border_style="green"
+    ))
+
+
 def provider_command(args):
     """Change LLM provider."""
     if args.list:
@@ -158,6 +171,13 @@ def main():
     compare_parser.add_argument("base_branch", type=str, help="Base branch")
     compare_parser.add_argument("compare_branch", type=str, help="Branch to compare against base")
 
+    # Time range command
+    time_parser = subparsers.add_parser("time", help="Summarize commits in a date range")
+    time_parser.add_argument("start_date", type=str, help="Start date (YYYY-MM-DD)")
+    time_parser.add_argument("end_date", type=str, help="End date (YYYY-MM-DD)")
+    time_parser.add_argument("-b", "--branch", type=str, help="Branch to summarize commits from")
+    time_parser.set_defaults(func=time_range_command)
+
     # Provider command
     provider_parser = subparsers.add_parser("provider", help="List or set LLM provider")
     provider_parser.add_argument("-l", "--list", action="store_true", help="List available providers")
@@ -166,7 +186,7 @@ def main():
     args = parser.parse_args()
 
     # Check if running in a git repository for commands that need it
-    if args.command in ["recent", "commit", "compare"]:
+    if args.command in ["recent", "commit", "compare", "time"]:
         try:
             git_utils.get_repo()
         except git_utils.GitError as e:
@@ -182,6 +202,8 @@ def main():
         commit_command(args)
     elif args.command == "compare":
         compare_command(args)
+    elif args.command == "time":
+        time_range_command(args)
     elif args.command == "provider":
         provider_command(args)
     else:

@@ -8,7 +8,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="gitsummarizer",
-    version="0.1.0",
+    version="0.2.0",
     author="",
     author_email="",
     description="Human-readable summaries of git changes and commits",
@@ -41,9 +41,6 @@ setup(
         "dev": [
             "pytest>=7.0.0",
             "pytest-cov>=4.0.0",
-            "black>=23.0.0",
-            "flake8>=6.0.0",
-            "isort>=5.12.0",
         ],
     },
     entry_points={

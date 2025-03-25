@@ -136,6 +136,55 @@ def get_commit_details(commit_hash: str) -> str:
         raise GitError(f"Error getting commit details: {e}")
 
 
+def get_commits_in_time_range(start_date: str, end_date: str, branch: Optional[str] = None) -> str:
+    """
+    Get git log for commits between two dates.
+
+    Args:
+        start_date: Start date in YYYY-MM-DD format
+        end_date: End date in YYYY-MM-DD format
+        branch: Branch name (optional)
+
+    Returns:
+        String containing git log information
+    """
+    repo = get_repo()
+
+    try:
+        # Validate date format
+        from datetime import datetime
+        datetime.strptime(start_date, '%Y-%m-%d')
+        datetime.strptime(end_date, '%Y-%m-%d')
+
+        # Build the date range query
+        date_range = f"--since='{start_date}' --until='{end_date}'"
+
+        # Get the commits in the date range
+        if branch:
+            commits = list(repo.iter_commits(branch, since=start_date, until=end_date))
+        else:
+            commits = list(repo.iter_commits(since=start_date, until=end_date))
+
+        if not commits:
+            return f"No commits found between {start_date} and {end_date}"
+
+        # Format the output similar to get_commit_log
+        log_output = f"Commits between {start_date} and {end_date}:\n\n"
+        for commit in commits:
+            short_hash = commit.hexsha[:7]
+            first_line = commit.message.split('\n')[0]
+            log_output += f"{short_hash} {first_line}\n"
+            log_output += f"Author: {commit.author.name} <{commit.author.email}>\n"
+            log_output += f"Date:   {commit.authored_datetime.strftime('%Y-%m-%d %H:%M:%S')}\n\n"
+
+        return log_output
+
+    except ValueError as e:
+        raise GitError(f"Invalid date format: {e}. Please use YYYY-MM-DD format.")
+    except git.GitCommandError as e:
+        raise GitError(f"Git command error: {e}")
+
+
 def compare_branches(base_branch: str, compare_branch: str) -> str:
     """
     Compare two branches and return a summary of differences.
