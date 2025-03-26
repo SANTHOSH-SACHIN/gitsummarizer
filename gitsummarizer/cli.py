@@ -158,8 +158,9 @@ def main():
 
     # Recent commits command
     recent_parser = subparsers.add_parser("recent", help="Summarize recent commits")
-    recent_parser.add_argument("-n", "--num", type=int, default=5,
-                              help="Number of commits to summarize (default: 5)")
+    recent_parser.add_argument("-n", "--num", type=int,
+                              default=config.get_default_recent_commits(),
+                              help=f"Number of commits to summarize (default: {config.get_default_recent_commits()})")
     recent_parser.add_argument("-b", "--branch", type=str, help="Branch to summarize commits from")
 
     # Commit command
@@ -168,8 +169,19 @@ def main():
 
     # Compare command
     compare_parser = subparsers.add_parser("compare", help="Compare and summarize two branches")
-    compare_parser.add_argument("base_branch", type=str, help="Base branch")
+    compare_parser.add_argument("base_branch", type=str,
+                              default=config.get_default_compare_branch(),
+                              help=f"Base branch (default: {config.get_default_compare_branch()})")
     compare_parser.add_argument("compare_branch", type=str, help="Branch to compare against base")
+
+    # Defaults command
+    defaults_parser = subparsers.add_parser("defaults", help="Configure default settings")
+    defaults_parser.add_argument("--recent", type=int,
+                               help=f"Set default number of recent commits (current: {config.get_default_recent_commits()})")
+    defaults_parser.add_argument("--branch", type=str,
+                               help=f"Set default comparison branch (current: {config.get_default_compare_branch()})")
+    defaults_parser.add_argument("--format", type=str, choices=["text", "json", "markdown"],
+                               help=f"Set default output format (current: {config.get_default_output_format()})")
 
     # Time range command
     time_parser = subparsers.add_parser("time", help="Summarize commits in a date range")
@@ -206,6 +218,19 @@ def main():
         time_range_command(args)
     elif args.command == "provider":
         provider_command(args)
+    elif args.command == "defaults":
+        if args.recent:
+            config.set_default_recent_commits(args.recent)
+            console.print(f"[green]Default recent commits set to {args.recent}[/green]")
+        if args.branch:
+            config.set_default_compare_branch(args.branch)
+            console.print(f"[green]Default comparison branch set to {args.branch}[/green]")
+        if args.format:
+            config.set_default_output_format(args.format)
+            console.print(f"[green]Default output format set to {args.format}[/green]")
+
+        if not any([args.recent, args.branch, args.format]):
+            console.print("[yellow]No defaults specified. Use --recent, --branch or --format to set defaults.[/yellow]")
     else:
         parser.print_help()
 

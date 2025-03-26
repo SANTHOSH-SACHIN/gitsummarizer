@@ -12,6 +12,7 @@ GitSummarizer provides human-readable summaries of git changes and commits, maki
 - 🔎 **Analyze Specific Commits**: Deep dive into a particular commit with natural language descriptions
 - 🔀 **Compare Branches**: Understand the differences between branches in plain English
 - 🔌 **Multiple LLM Providers**: Support for Groq, OpenAI, Google Gemini, and local Ollama models
+- ⚙️ **Customizable Defaults**: Configure default number of commits, comparison branch, and output format
 - 💻 **Command-line Interface**: Easy-to-use CLI with rich, colorful output
 
 ## Installation
@@ -75,6 +76,19 @@ gitsumm provider -l
 
 # Switch to a different provider
 gitsumm provider openai
+```
+
+### Configure Default Settings
+
+```bash
+# Set default number of recent commits to 10
+gitsumm defaults --recent 10
+
+# Set default comparison branch to 'develop'
+gitsumm defaults --branch develop
+
+# Set default output format to markdown
+gitsumm defaults --format markdown
 ```
 
 ## Supported LLM Providers

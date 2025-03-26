@@ -21,6 +21,11 @@ DEFAULT_CONFIG = {
         "openai": "gpt-4o",
         "gemini": "gemini-2.0-flash",
         "ollama": "llama3"
+    },
+    "defaults": {
+        "recent_commits": 5,
+        "compare_branch": "main",
+        "output_format": "text"  # text, json, or markdown
     }
 }
 
@@ -114,4 +119,55 @@ def set_model_for_provider(provider: str, model: str):
         config["model_preferences"] = {}
 
     config["model_preferences"][provider] = model
+    save_config(config)
+
+
+def get_default_recent_commits() -> int:
+    """Get the default number of recent commits to summarize."""
+    config = load_config()
+    return config.get("defaults", {}).get("recent_commits", 5)
+
+
+def set_default_recent_commits(count: int):
+    """Set the default number of recent commits to summarize."""
+    config = load_config()
+
+    if "defaults" not in config:
+        config["defaults"] = {}
+
+    config["defaults"]["recent_commits"] = count
+    save_config(config)
+
+
+def get_default_compare_branch() -> str:
+    """Get the default branch to compare against."""
+    config = load_config()
+    return config.get("defaults", {}).get("compare_branch", "main")
+
+
+def set_default_compare_branch(branch: str):
+    """Set the default branch to compare against."""
+    config = load_config()
+
+    if "defaults" not in config:
+        config["defaults"] = {}
+
+    config["defaults"]["compare_branch"] = branch
+    save_config(config)
+
+
+def get_default_output_format() -> str:
+    """Get the default output format (text/json/markdown)."""
+    config = load_config()
+    return config.get("defaults", {}).get("output_format", "text")
+
+
+def set_default_output_format(format: str):
+    """Set the default output format (text/json/markdown)."""
+    config = load_config()
+
+    if "defaults" not in config:
+        config["defaults"] = {}
+
+    config["defaults"]["output_format"] = format
     save_config(config)
