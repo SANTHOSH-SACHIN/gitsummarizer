@@ -201,7 +201,7 @@ def main():
     if args.command in ["recent", "commit", "compare", "time"]:
         try:
             git_utils.get_repo()
-        except git_utils.GitError as e:
+        except Exception as e:
             console.print(f"[bold red]Error:[/bold red] {str(e)}")
             sys.exit(1)
 

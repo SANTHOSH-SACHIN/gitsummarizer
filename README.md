@@ -11,7 +11,7 @@ GitSummarizer provides human-readable summaries of git changes and commits, maki
 - 🔍 **Summarize Recent Commits**: Get a human-friendly overview of your recent commit activity
 - 🔎 **Analyze Specific Commits**: Deep dive into a particular commit with natural language descriptions
 - 🔀 **Compare Branches**: Understand the differences between branches in plain English
-- 🔌 **Multiple LLM Providers**: Support for Groq, OpenAI, Google Gemini, and local Ollama models
+- 🔌 **Multiple LLM Providers**: Support for Groq, OpenAI, Google Gemini, Anthropic Claude, and local Ollama models
 - ⚙️ **Customizable Defaults**: Configure default number of commits, comparison branch, and output format
 - 💻 **Command-line Interface**: Easy-to-use CLI with rich, colorful output
 
@@ -96,6 +96,7 @@ gitsumm defaults --format markdown
 - **Groq**: Fast performance with various Llama models
 - **OpenAI**: High-quality summaries with GPT models
 - **Google Gemini**: Google's latest language models
+- **Anthropic Claude**: Advanced AI models from Anthropic
 - **Ollama**: Run LLMs locally on your machine for privacy
 
 ## Requirements

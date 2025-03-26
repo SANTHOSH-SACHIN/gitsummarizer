@@ -22,8 +22,9 @@ class TestSummarizer(unittest.TestCase):
         mock_provider.generate.return_value = "Mock summary"
         mock_get_provider.return_value = mock_provider
 
-        # Create summarizer
+        # Create summarizer with groq provider
         summarizer = Summarizer(provider_name="groq", api_key="test_key")
+        self.assertEqual(summarizer.provider_name, "groq")
 
         # Call the method
         result = summarizer.summarize_recent_commits(num_commits=3, branch="main")

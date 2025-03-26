@@ -20,7 +20,8 @@ DEFAULT_CONFIG = {
         "groq": "llama-3.2-1b-preview",
         "openai": "gpt-4o",
         "gemini": "gemini-2.0-flash",
-        "ollama": "llama3"
+        "ollama": "llama3",
+        "anthropic": "claude-3.5-sonnet-20240229"
     },
     "defaults": {
         "recent_commits": 5,

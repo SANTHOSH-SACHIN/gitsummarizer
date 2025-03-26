@@ -7,13 +7,15 @@ from .groq import GroqProvider
 from .openai import OpenAIProvider
 from .gemini import GeminiProvider
 from .ollama import OllamaProvider
+from .anthropic import AnthropicModel
 
 # Map of provider names to provider classes
 PROVIDERS = {
     "groq": GroqProvider,
     "openai": OpenAIProvider,
     "gemini": GeminiProvider,
-    "ollama": OllamaProvider
+    "ollama": OllamaProvider,
+    "anthropic": AnthropicModel
 }
 
 

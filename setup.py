@@ -8,7 +8,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="gitsummarizer",
-    version="0.2.0",
+    version="0.4.0",
     author="",
     author_email="",
     description="Human-readable summaries of git changes and commits",
@@ -36,6 +36,7 @@ setup(
         "gitpython>=3.1.0",
         "requests>=2.25.0",
         "rich>=10.0.0",
+        "anthropic>=0.25.0",
     ],
     extras_require={
         "dev": [
