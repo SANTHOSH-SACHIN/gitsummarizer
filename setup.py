@@ -14,9 +14,9 @@ setup(
     description="Human-readable summaries of git changes and commits",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/gitsummarizer",
+    url="https://github.com/SANTHOSH-SACHIN/gitsummarizer",
     project_urls={
-        "Bug Tracker": "https://github.com/yourusername/gitsummarizer/issues",
+        "Bug Tracker": "https://github.com/SANTHOSH-SACHIN/gitsummarizer/issues",
     },
     classifiers=[
         "Programming Language :: Python :: 3",
