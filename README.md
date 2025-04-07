@@ -29,7 +29,7 @@ I haven't published this on PyPI yet, so fetch it from Github ;)
 pip install git+https://github.com/SANTHOSH-SACHIN/gitsummarizer.git
 ```
 
-## Setup
+## Setup and Configuration
 
 Before using GitSummarizer, you need to configure an LLM provider:
 
@@ -37,66 +37,99 @@ Before using GitSummarizer, you need to configure an LLM provider:
 gitsumm setup
 ```
 
-This will guide you through selecting a provider and setting up any API keys. Reccommended default is Groq (Use the most lightweight Llama 1B Model for instant results)
+This interactive setup will:
+1. Let you select from available providers (Groq, OpenAI, Google Gemini, Anthropic Claude, or local Ollama)
+2. Securely store your API keys (except for Ollama)
+3. Set default model preferences
 
-## Usage
+Recommended defaults:
+- **Provider**: Groq (fastest response time)
+- **Model**: llama-3.2-1b-preview (lightweight but effective)
 
-### Summarize Recent Commits
+### Configuration File
+
+GitSummarizer stores configuration in `~/.config/gitsumm/config.json`. You can:
+- Edit this file directly (not recommended)
+- Use the CLI commands to modify settings
+- Set environment variables for API keys (takes precedence over config file)
+
+## Usage Examples
+
+### Basic Usage
 
 ```bash
-# Summarize the last 5 commits
+# Summarize last 5 commits (default)
 gitsumm recent
 
-# Summarize the last 10 commits
-gitsumm recent -n 10
+# Summarize last 10 commits from feature branch
+gitsumm recent -n 10 -b feature-branch
 
-# Summarize commits from a specific branch
-gitsumm recent -b feature-branch
-```
-
-### Analyze a Specific Commit
-
-```bash
+# Get detailed analysis of a specific commit
 gitsumm commit abc1234
 ```
 
-### Compare Branches
+### Advanced Usage
 
 ```bash
-gitsumm compare main feature-branch
+# Compare branches with custom output format
+gitsumm compare main feature-branch --format markdown > comparison.md
+
+# Summarize commits from last quarter (2025 Q1)
+gitsumm time 2025-01-01 2025-03-31
+
+# Get JSON output for programmatic processing
+gitsumm recent --format json | jq .
 ```
 
-### Summarize Commits by Time Range
+### Configuration Management
 
 ```bash
-# Summarize commits between two dates (YYYY-MM-DD format)
-gitsumm time 2025-01-01 2025-03-25
-
-# Summarize commits from a specific branch within a date range
-gitsumm time 2025-01-01 2025-03-25 -b feature-branch
-```
-
-### Change LLM Provider
-
-```bash
-# List available providers
+# List available LLM providers
 gitsumm provider -l
 
-# Switch to a different provider
+# Switch to OpenAI provider
 gitsumm provider openai
+
+# Set multiple defaults at once
+gitsumm defaults --recent 10 --branch develop --format markdown
+
+# Verify current configuration
+cat ~/.config/gitsumm/config.json
 ```
 
-### Configure Default Settings
+### Integration Examples
 
 ```bash
-# Set default number of recent commits to 10
-gitsumm defaults --recent 10
+# Use in CI/CD pipeline (GitHub Actions example)
+- name: Summarize changes
+  run: |
+    pip install gitsummarizer
+    gitsumm compare ${{ github.base_ref }} ${{ github.head_ref }} --format markdown >> summary.md
 
-# Set default comparison branch to 'develop'
-gitsumm defaults --branch develop
+# Daily summary cron job
+0 18 * * * cd /path/to/repo && gitsumm time $(date -d "yesterday" +%F) $(date +%F) >> ~/git-summaries.log
+```
 
-# Set default output format to markdown
-gitsumm defaults --format markdown
+## Output Formats
+
+GitSummarizer supports multiple output formats:
+
+1. **Text** (default): Human-readable plain text with colors
+2. **Markdown**: Formatted for documentation
+3. **JSON**: Structured data for programmatic use
+
+Example JSON output:
+```json
+{
+  "summary": "Added new authentication module",
+  "details": [
+    {
+      "file": "src/auth.py",
+      "changes": "+120 -0",
+      "description": "Implemented JWT token generation"
+    }
+  ]
+}
 ```
 
 ## Supported LLM Providers
@@ -118,6 +151,12 @@ gitsumm defaults --format markdown
 Contributions are welcome! Check out the [Contributing Guide](CONTRIBUTING.md) to get started.
 
 P.S: I need help to setup the tests and worflow. Would be happy if someone can help me out ;)
+
+## Documentation
+
+For detailed usage instructions and configuration options, see:
+- [USAGE.md](USAGE.md) - Advanced usage examples and configuration details
+- [CONTRIBUTING.md](CONTRIBUTING.md) - Development and contribution guidelines
 
 ## License
 
