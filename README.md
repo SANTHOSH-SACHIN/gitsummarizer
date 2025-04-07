@@ -1,12 +1,19 @@
 # GitSummarizer
 
-## Release Notes (v0.4.0 - March 2025)
+## Release Notes (v0.5.0 - April 2025)
 
-🚀 **Major Update**: Added support for multiple AI model providers!
-- Added new model integrations: Anthropic Claude, Google Gemini, Groq, and local Ollama
-- Enhanced CLI with new commands: `provider`, `defaults`, and improved `time` range summaries
-- Better error handling and user feedback
-- Improved documentation and setup process
+🚀 **Major Updates**:
+- Added comprehensive project configuration via pyproject.toml
+- Created USAGE.md with detailed documentation and examples
+- Implemented automated testing with pytest and GitHub Actions
+- Enhanced CLI configuration management
+- Improved error handling and user feedback
+
+🔧 **Technical Improvements**:
+- Modernized Python packaging configuration
+- Added test coverage reporting
+- Standardized development tooling (black, isort, pytest)
+- Updated dependencies and requirements
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python: 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
@@ -25,6 +32,7 @@ GitSummarizer provides human-readable summaries of git changes and commits, maki
 
 ## Installation
 I haven't published this on PyPI yet, so fetch it from Github ;)
+
 ```bash
 pip install git+https://github.com/SANTHOSH-SACHIN/gitsummarizer.git
 ```
