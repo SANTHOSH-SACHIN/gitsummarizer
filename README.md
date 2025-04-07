@@ -1,19 +1,12 @@
 # GitSummarizer
 
-## Release Notes (v0.5.0 - April 2025)
+## Release Notes (v0.4.0 - March 2025)
 
-🚀 **Major Updates**:
-- Added comprehensive project configuration via pyproject.toml
-- Created USAGE.md with detailed documentation and examples
-- Implemented automated testing with pytest and GitHub Actions
-- Enhanced CLI configuration management
-- Improved error handling and user feedback
-
-🔧 **Technical Improvements**:
-- Modernized Python packaging configuration
-- Added test coverage reporting
-- Standardized development tooling (black, isort, pytest)
-- Updated dependencies and requirements
+🚀 **Major Update**: Added support for multiple AI model providers!
+- Added new model integrations: Anthropic Claude, Google Gemini, Groq, and local Ollama
+- Enhanced CLI with new commands: `provider`, `defaults`, and improved `time` range summaries
+- Better error handling and user feedback
+- Improved documentation and setup process
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python: 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
@@ -32,12 +25,11 @@ GitSummarizer provides human-readable summaries of git changes and commits, maki
 
 ## Installation
 I haven't published this on PyPI yet, so fetch it from Github ;)
-
 ```bash
 pip install git+https://github.com/SANTHOSH-SACHIN/gitsummarizer.git
 ```
 
-## Setup and Configuration
+## Setup
 
 Before using GitSummarizer, you need to configure an LLM provider:
 
@@ -45,99 +37,66 @@ Before using GitSummarizer, you need to configure an LLM provider:
 gitsumm setup
 ```
 
-This interactive setup will:
-1. Let you select from available providers (Groq, OpenAI, Google Gemini, Anthropic Claude, or local Ollama)
-2. Securely store your API keys (except for Ollama)
-3. Set default model preferences
+This will guide you through selecting a provider and setting up any API keys. Reccommended default is Groq (Use the most lightweight Llama 1B Model for instant results)
 
-Recommended defaults:
-- **Provider**: Groq (fastest response time)
-- **Model**: llama-3.2-1b-preview (lightweight but effective)
+## Usage
 
-### Configuration File
-
-GitSummarizer stores configuration in `~/.config/gitsumm/config.json`. You can:
-- Edit this file directly (not recommended)
-- Use the CLI commands to modify settings
-- Set environment variables for API keys (takes precedence over config file)
-
-## Usage Examples
-
-### Basic Usage
+### Summarize Recent Commits
 
 ```bash
-# Summarize last 5 commits (default)
+# Summarize the last 5 commits
 gitsumm recent
 
-# Summarize last 10 commits from feature branch
-gitsumm recent -n 10 -b feature-branch
+# Summarize the last 10 commits
+gitsumm recent -n 10
 
-# Get detailed analysis of a specific commit
+# Summarize commits from a specific branch
+gitsumm recent -b feature-branch
+```
+
+### Analyze a Specific Commit
+
+```bash
 gitsumm commit abc1234
 ```
 
-### Advanced Usage
+### Compare Branches
 
 ```bash
-# Compare branches with custom output format
-gitsumm compare main feature-branch --format markdown > comparison.md
-
-# Summarize commits from last quarter (2025 Q1)
-gitsumm time 2025-01-01 2025-03-31
-
-# Get JSON output for programmatic processing
-gitsumm recent --format json | jq .
+gitsumm compare main feature-branch
 ```
 
-### Configuration Management
+### Summarize Commits by Time Range
 
 ```bash
-# List available LLM providers
+# Summarize commits between two dates (YYYY-MM-DD format)
+gitsumm time 2025-01-01 2025-03-25
+
+# Summarize commits from a specific branch within a date range
+gitsumm time 2025-01-01 2025-03-25 -b feature-branch
+```
+
+### Change LLM Provider
+
+```bash
+# List available providers
 gitsumm provider -l
 
-# Switch to OpenAI provider
+# Switch to a different provider
 gitsumm provider openai
-
-# Set multiple defaults at once
-gitsumm defaults --recent 10 --branch develop --format markdown
-
-# Verify current configuration
-cat ~/.config/gitsumm/config.json
 ```
 
-### Integration Examples
+### Configure Default Settings
 
 ```bash
-# Use in CI/CD pipeline (GitHub Actions example)
-- name: Summarize changes
-  run: |
-    pip install gitsummarizer
-    gitsumm compare ${{ github.base_ref }} ${{ github.head_ref }} --format markdown >> summary.md
+# Set default number of recent commits to 10
+gitsumm defaults --recent 10
 
-# Daily summary cron job
-0 18 * * * cd /path/to/repo && gitsumm time $(date -d "yesterday" +%F) $(date +%F) >> ~/git-summaries.log
-```
+# Set default comparison branch to 'develop'
+gitsumm defaults --branch develop
 
-## Output Formats
-
-GitSummarizer supports multiple output formats:
-
-1. **Text** (default): Human-readable plain text with colors
-2. **Markdown**: Formatted for documentation
-3. **JSON**: Structured data for programmatic use
-
-Example JSON output:
-```json
-{
-  "summary": "Added new authentication module",
-  "details": [
-    {
-      "file": "src/auth.py",
-      "changes": "+120 -0",
-      "description": "Implemented JWT token generation"
-    }
-  ]
-}
+# Set default output format to markdown
+gitsumm defaults --format markdown
 ```
 
 ## Supported LLM Providers
@@ -159,12 +118,6 @@ Example JSON output:
 Contributions are welcome! Check out the [Contributing Guide](CONTRIBUTING.md) to get started.
 
 P.S: I need help to setup the tests and worflow. Would be happy if someone can help me out ;)
-
-## Documentation
-
-For detailed usage instructions and configuration options, see:
-- [USAGE.md](USAGE.md) - Advanced usage examples and configuration details
-- [CONTRIBUTING.md](CONTRIBUTING.md) - Development and contribution guidelines
 
 ## License
 

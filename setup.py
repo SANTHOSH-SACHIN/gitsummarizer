@@ -8,15 +8,15 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="gitsummarizer",
-    version="0.5.0",
+    version="0.4.0",
     author="",
     author_email="",
     description="Human-readable summaries of git changes and commits",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/SANTHOSH-SACHIN/gitsummarizer",
+    url="https://github.com/yourusername/gitsummarizer",
     project_urls={
-        "Bug Tracker": "https://github.com/SANTHOSH-SACHIN/gitsummarizer/issues",
+        "Bug Tracker": "https://github.com/yourusername/gitsummarizer/issues",
     },
     classifiers=[
         "Programming Language :: Python :: 3",
