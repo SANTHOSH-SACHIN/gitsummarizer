@@ -16,10 +16,10 @@ class GroqProvider(LLMProvider):
 
         Args:
             api_key: Groq API key
-            model: Model to use (default: llama-3.2-1b-preview)
+            model: Model to use (default: llama-3.1-8b-instant)
         """
         self.api_key = api_key
-        self.model = model or "llama-3.2-1b-preview"
+        self.model = model or "llama-3.1-8b-instant"
 
         if not self.api_key:
             raise ModelError("Groq API key is required")
