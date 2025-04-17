@@ -114,6 +114,33 @@ def time_range_command(args):
     ))
 
 
+def template_command(args):
+    """Manage prompt templates."""
+    if args.list:
+        # List available templates
+        config_data = config.load_config()
+        templates = config_data.get("prompt_templates", {})
+        active = config.get_active_template_name()
+
+        console.print("[bold green]Available Templates:[/bold green]")
+        console.print(f"→ [bold]default[/bold] {'(active)' if active == 'default' else ''}")
+        for name in templates:
+            if name != "default":
+                console.print(f"  {name} {'(active)' if name == active else ''}")
+        return
+
+    if args.set:
+        # Set active template
+        config.set_active_template(args.set)
+        console.print(f"[bold green]✓ Active template set to {args.set}[/bold green]")
+        return
+
+    if args.name and args.content:
+        # Add new template
+        config.set_prompt_template(args.name, args.content)
+        console.print(f"[bold green]✓ Added template: {args.name}[/bold green]")
+        return
+
 def provider_command(args):
     """Change LLM provider."""
     if args.list:
@@ -190,6 +217,13 @@ def main():
     time_parser.add_argument("-b", "--branch", type=str, help="Branch to summarize commits from")
     time_parser.set_defaults(func=time_range_command)
 
+    # Template command
+    template_parser = subparsers.add_parser("template", help="Manage prompt templates")
+    template_parser.add_argument("-l", "--list", action="store_true", help="List available templates")
+    template_parser.add_argument("-s", "--set", type=str, help="Set active template")
+    template_parser.add_argument("-n", "--name", type=str, help="Name for new template")
+    template_parser.add_argument("-c", "--content", type=str, help="Content for new template")
+
     # Provider command
     provider_parser = subparsers.add_parser("provider", help="List or set LLM provider")
     provider_parser.add_argument("-l", "--list", action="store_true", help="List available providers")
@@ -218,6 +252,8 @@ def main():
         time_range_command(args)
     elif args.command == "provider":
         provider_command(args)
+    elif args.command == "template":
+        template_command(args)
     elif args.command == "defaults":
         if args.recent:
             config.set_default_recent_commits(args.recent)
