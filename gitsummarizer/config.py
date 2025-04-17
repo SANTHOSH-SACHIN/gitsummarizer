@@ -23,6 +23,25 @@ DEFAULT_CONFIG = {
         "ollama": "llama3",
         "anthropic": "claude-3.5-sonnet-20240229"
     },
+    "prompt_templates": {
+        "default": """
+        I need you to summarize the following git repository changes in clear,
+        human-readable language. Focus on the high-level impact of the changes
+        rather than listing every file. Group related changes when possible,
+        and identify the key themes or purposes behind the commits.
+
+        Here are the git changes to summarize:
+
+        {git_data}
+
+        Provide a concise but informative summary, highlighting:
+        1. Main purpose/theme of these changes
+        2. Key components or areas affected
+        3. Any notable technical details worth mentioning
+
+        Format your response as Markdown with appropriate headings.
+        """
+    },
     "defaults": {
         "recent_commits": 5,
         "compare_branch": "main",
@@ -171,4 +190,50 @@ def set_default_output_format(format: str):
         config["defaults"] = {}
 
     config["defaults"]["output_format"] = format
+    save_config(config)
+
+def get_prompt_template(template_name: str = "default") -> str:
+    """Get a prompt template by name.
+
+    Args:
+        template_name: Name of the template to retrieve. Defaults to "default".
+
+    Returns:
+        The prompt template string.
+    """
+    config = load_config()
+    return config.get("prompt_templates", {}).get(template_name, DEFAULT_CONFIG["prompt_templates"]["default"])
+
+def set_prompt_template(template_name: str, template: str):
+    """Set a prompt template.
+
+    Args:
+        template_name: Name of the template to set
+        template: The prompt template string
+    """
+    config = load_config()
+
+    if "prompt_templates" not in config:
+        config["prompt_templates"] = {}
+
+    config["prompt_templates"][template_name] = template
+    save_config(config)
+
+def get_active_template_name() -> str:
+    """Get the name of the currently active prompt template."""
+    config = load_config()
+    return config.get("defaults", {}).get("active_template", "default")
+
+def set_active_template(template_name: str):
+    """Set the active prompt template.
+
+    Args:
+        template_name: Name of the template to set as active
+    """
+    config = load_config()
+
+    if "defaults" not in config:
+        config["defaults"] = {}
+
+    config["defaults"]["active_template"] = template_name
     save_config(config)
